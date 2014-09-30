@@ -79,11 +79,11 @@ namespace UltimateCarry
 
 		private static readonly Dictionary<String, UltData> UltInfo = new Dictionary<string, UltData>
         {
-            {"Jinx", new UltData {StageType = DamageLib.StageType.Default, DamageMultiplicator = 1f, Width = 140f, Delay = 600f/1000f, Speed = 1700f, Range = 20000f, Collision = true}},
-            {"Ashe", new UltData {StageType = DamageLib.StageType.Default, DamageMultiplicator = 1f, Width = 130f, Delay = 250f/1000f, Speed = 1600f, Range = 20000f, Collision = true}},
-            {"Draven", new UltData {StageType = DamageLib.StageType.FirstDamage, DamageMultiplicator = 0.7f, Width = 160f, Delay = 400f/1000f, Speed = 2000f, Range = 20000f, Collision = true}},
-            {"Ezreal", new UltData {StageType = DamageLib.StageType.Default, DamageMultiplicator = 0.7f, Width = 160f, Delay = 1000f/1000f, Speed = 2000f, Range = 20000f, Collision = false}},
-            {"Karthus", new UltData {StageType = DamageLib.StageType.Default, DamageMultiplicator = 1f, Width = 0f, Delay = 3125f/1000f, Speed = 0f, Range = 20000f, Collision = false}}
+            {"Jinx", new UltData { DamageMultiplicator = 1f, Width = 140f, Delay = 600f/1000f, Speed = 1700f, Range = 20000f, Collision = true}},
+            {"Ashe", new UltData { DamageMultiplicator = 1f, Width = 130f, Delay = 250f/1000f, Speed = 1600f, Range = 20000f, Collision = true}},
+            {"Draven", new UltData { DamageMultiplicator = 0.7f, Width = 160f, Delay = 400f/1000f, Speed = 2000f, Range = 20000f, Collision = true}},
+            {"Ezreal", new UltData {DamageMultiplicator = 0.7f, Width = 160f, Delay = 1000f/1000f, Speed = 2000f, Range = 20000f, Collision = false}},
+            {"Karthus", new UltData { DamageMultiplicator = 1f, Width = 0f, Delay = 3125f/1000f, Speed = 0f, Range = 20000f, Collision = false}}
         };
 
 		public BaseUlt()
@@ -491,7 +491,7 @@ namespace UltimateCarry
 			public float Range;
 			public float Speed;
 			[UsedImplicitly]
-			public DamageLib.StageType StageType;
+			//public DamageLib.StageType StageType;
 			public float Width;
 			public bool Collision;
 		}

@@ -120,7 +120,7 @@ namespace UltimateCarry
 			{
 				lowesttarget[0] = enemy;
 			}
-			if(lowesttarget[0] != null && lowesttarget[0].Health < (DamageLib.getDmg(lowesttarget[0], DamageLib.SpellType.R) * 0.9) && Environment.TickCount -UltTick  >= 700) 
+			if(lowesttarget[0] != null && lowesttarget[0].Health < (ObjectManager.Player.GetSpellDamage(lowesttarget[0], SpellSlot.R) * 0.9) && Environment.TickCount - UltTick >= 700) 
 			{
 				R.Cast(lowesttarget[0], Packets());
 				UltTick = Environment.TickCount;
@@ -216,7 +216,7 @@ namespace UltimateCarry
 			var victims = "";
 			
 			foreach(var target in Program.Helper.EnemyInfo.Where(x =>
-			 x.Player.IsVisible && x.Player.IsValidTarget(GetRRange()) && DamageLib.getDmg(x.Player, DamageLib.SpellType.R)* 0.9 >= x.Player.Health ))
+			 x.Player.IsVisible && x.Player.IsValidTarget(GetRRange()) && ObjectManager.Player.GetSpellDamage(x.Player, SpellSlot.R) * 0.9 >= x.Player.Health))
 			{
 				victims += target.Player.ChampionName + " ";
 

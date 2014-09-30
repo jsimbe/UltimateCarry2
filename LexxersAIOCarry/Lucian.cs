@@ -186,7 +186,7 @@ namespace UltimateCarry
 			if(lastHit)
 			{
 				var minion =
-					allMinions.FirstOrDefault(minionn => minionn.Distance(ObjectManager.Player) <= Q.Range && minionn.Health <= DamageLib.getDmg(minionn, DamageLib.SpellType.Q));
+					allMinions.FirstOrDefault(minionn => minionn.Distance(ObjectManager.Player) <= Q.Range && minionn.Health <= ObjectManager.Player.GetSpellDamage(minionn, SpellSlot.Q));
 				if(minion == null)
 					return;
 				Q.CastOnUnit(minion, Packets());

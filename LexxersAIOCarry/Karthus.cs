@@ -212,7 +212,7 @@ namespace UltimateCarry
                 return;
             var minions = MinionManager.GetMinions(ObjectManager.Player.ServerPosition, _spellQ.Range, MinionTypes.All, MinionTeam.NotAlly);
 
-            foreach (var minion in minions.Where(x => DamageLib.getDmg(x, DamageLib.SpellType.Q, DamageLib.StageType.FirstDamage) >= //FirstDamage = multitarget hit, differentiate! (check radius around mob predicted pos)
+			foreach(var minion in minions.Where(x => ObjectManager.Player.GetSpellDamage(x, SpellSlot.Q,1) >= //FirstDamage = multitarget hit, differentiate! (check radius around mob predicted pos)
                                                       HealthPrediction.GetHealthPrediction(x, (int)(_spellQ.Delay * 1000))))
             {
                 CastQ(minion, _menu.Item("farmQPercent").GetValue<Slider>().Value);
@@ -231,7 +231,7 @@ namespace UltimateCarry
                 x.Player.IsEnemy &&
                 !(x.RecallInfo.Recall.Status == Packet.S2C.Recall.RecallStatus.RecallStarted && x.RecallInfo.GetRecallCountdown() < 3100) && //let BaseUlt handle this one
                 ((!x.Player.IsVisible && time - x.LastSeen < 10000) || (x.Player.IsVisible && x.Player.IsValidTarget())) &&
-                DamageLib.getDmg(x.Player, DamageLib.SpellType.R) >= Program.Helper.GetTargetHealth(x, (int)(_spellR.Delay * 1000f))))
+				ObjectManager.Player.GetSpellDamage(x.Player, SpellSlot.R) >= Program.Helper.GetTargetHealth(x, (int)(_spellR.Delay * 1000f))))
             {
                 if (target.Player.IsVisible || (!target.Player.IsVisible && time - target.LastSeen < 2750)) //allies still attacking target? prevent overkill
                     if (Program.Helper.OwnTeam.Any(x => !x.IsMe && x.Distance(target.Player) < 1600))
@@ -318,7 +318,7 @@ namespace UltimateCarry
 				!x.Player.IsDead &&
 				x.Player.IsEnemy &&
 				((!x.Player.IsVisible && time - x.LastSeen < 10000) || (x.Player.IsVisible && Utility.IsValidTarget(x.Player))) &&
-				DamageLib.getDmg(x.Player, DamageLib.SpellType.R) >= Program.Helper.GetTargetHealth(x, (int)(_spellR.Delay * 1000f))))
+				ObjectManager.Player.GetSpellDamage(x.Player, SpellSlot.R) >= Program.Helper.GetTargetHealth(x, (int)(_spellR.Delay * 1000f))))
 			{
 				victims += target.Player.ChampionName + " ";
 

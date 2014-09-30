@@ -217,8 +217,8 @@ namespace UltimateCarry
 					continue;
 				var minionInRangeAa = Orbwalking.InAutoAttackRange(minion);
 				var minionInRangeSpell = minion.Distance(ObjectManager.Player) <= Q.Range;
-				var minionKillableAa = DamageLib.getDmg(minion, DamageLib.SpellType.AD) >= minion.Health;
-				var minionKillableSpell = DamageLib.getDmg(minion, DamageLib.SpellType.Q) >= minion.Health;
+				var minionKillableAa = ObjectManager.Player.GetAutoAttackDamage(minion) >= minion.Health;
+				var minionKillableSpell = ObjectManager.Player.GetSpellDamage(minion, SpellSlot.Q) >= minion.Health;
 				var lastHit = Program.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LastHit;
 				var laneClear = Program.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear;
 
@@ -308,7 +308,7 @@ namespace UltimateCarry
 			{
 				if (!minion.IsValidTarget(E.Range)) 
 					continue;
-				if((DamageLib.getDmg(minion, DamageLib.SpellType.E) > minion.Health) || (DamageLib.getDmg(minion, DamageLib.SpellType.E) + 100 < minion.Health))
+				if((ObjectManager.Player.GetSpellDamage(minion, SpellSlot.E) > minion.Health) || (ObjectManager.Player.GetSpellDamage(minion, SpellSlot.E) + 100 < minion.Health))
 					E.Cast();
 			}
 		}

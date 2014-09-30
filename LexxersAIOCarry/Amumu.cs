@@ -96,7 +96,7 @@ namespace UltimateCarry
                     {
                         enemiesHit++;
 
-                        if (DamageLib.getDmg(enemy, DamageLib.SpellType.R) >= enemy.Health)
+						if(ObjectManager.Player.GetSpellDamage(enemy, SpellSlot.W) >= enemy.Health)
                             killableHits++;
                     }
                 }

@@ -90,7 +90,7 @@ namespace UltimateCarry
 					break;
 				case Orbwalking.OrbwalkingMode.LaneClear:
 					if(Program.Menu.Item("useW_LaneClear").GetValue<bool>())
-						if(Program.Orbwalker.GetTarget().Health >= DamageLib.getDmg(Program.Orbwalker.GetTarget(),DamageLib.SpellType.AD) && W.IsReady())
+						if(Program.Orbwalker.GetTarget().Health >= ObjectManager.Player.GetSpellDamage(Program.Orbwalker.GetTarget(),SpellSlot.W) && W.IsReady())
 						{
 							Orbwalking.ResetAutoAttackTimer();
 							W.Cast();

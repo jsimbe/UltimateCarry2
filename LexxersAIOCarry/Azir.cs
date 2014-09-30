@@ -622,16 +622,13 @@ namespace UltimateCarry
 				private bool ShouldWait()
 				{
 					return
-					ObjectManager.Get<Obj_AI_Minion>()
-					.Any(
-					minion =>
-					minion.IsValidTarget() && minion.Team != GameObjectTeam.Neutral &&
-					InAutoAttackRange(minion) &&
-					HealthPrediction.LaneClearHealthPrediction(
-					minion, (int)((_player.AttackDelay * 1000) * LaneClearWaitTimeMod), FarmDelay) <=
-					DamageLib.CalcPhysicalMinionDmg(
-					_player.BaseAttackDamage + _player.FlatPhysicalDamageMod, minion, true) - 1 +
-					Math.Max(0, GetAutoAttackPassiveDamage(minion) - 10));
+			ObjectManager.Get<Obj_AI_Minion>()
+			.Any(
+			minion =>
+			minion.IsValidTarget(GetRealAutoAttackRange(minion)) &&
+			HealthPrediction.LaneClearHealthPrediction(
+			minion, (int)((Player.AttackDelay * 1000) * LaneClearWaitTimeMod)) <=
+			Player.GetAutoAttackDamage(minion, true));
 				}
 				public Obj_AI_Base GetTarget()
 				{
@@ -647,21 +644,16 @@ namespace UltimateCarry
 					if(ActiveMode == OrbwalkingMode.LaneClear || ActiveMode == OrbwalkingMode.Mixed ||
 					ActiveMode == OrbwalkingMode.LastHit)
 					{
-						foreach(var minion in
-						ObjectManager.Get<Obj_AI_Minion>()
-						.Where(minion => minion.IsValidTarget() && (InAutoAttackRange(minion) || InSoldierAttackRange(minion))))
+						foreach(var minion in from minion in ObjectManager.Get<Obj_AI_Minion>().Where(minion => minion.IsValidTarget(GetRealAutoAttackRange(minion)) && minion.Health > 0)
+											  let time = (int)(Player.AttackCastDelay * 1000) + Game.Ping / 2 - 100 +
+														 (int)(1000 * Player.Distance(minion) / (Player.IsMelee() ? float.MaxValue : Player.BasicAttack.MissileSpeed))
+											  let predHealth = HealthPrediction.GetHealthPrediction(minion, time,125)
+											  where minion.Team != GameObjectTeam.Neutral &&
+													predHealth > 0 &&
+													predHealth <= Player.GetAutoAttackDamage(minion, true)
+											  select minion)
 						{
-							var t = (int)(_player.AttackCastDelay * 1000) - 100 + Game.Ping / 2 +
-							1000 * (int)_player.Distance(minion) / (int)GetMyProjectileSpeed();
-							var predHealth = HealthPrediction.GetHealthPrediction(minion, t, FarmDelay);
-							if(minion.Team != GameObjectTeam.Neutral && predHealth > 0 &&
-							predHealth <=
-							DamageLib.CalcPhysicalMinionDmg(
-							_player.BaseAttackDamage + _player.FlatPhysicalDamageMod, minion, true) - 1 +
-							Math.Max(0, GetAutoAttackPassiveDamage(minion) - 10))
-							{
-								return minion;
-							}
+							return minion;
 						}
 					}
 					//Forced target
@@ -695,38 +687,22 @@ namespace UltimateCarry
 					r[0] = float.MaxValue;
 					if(ActiveMode == OrbwalkingMode.LaneClear)
 					{
-						if(!ShouldWait())
+						var maxhealth = new float[] { 0 };
+						foreach(var minion in from minion in ObjectManager.Get<Obj_AI_Minion>()
+						   .Where(minion => minion.IsValidTarget(GetRealAutoAttackRange(minion)))
+											  let predHealth = HealthPrediction.LaneClearHealthPrediction(
+minion, (int)((Player.AttackDelay * 1000) * LaneClearWaitTimeMod), 125)
+											  where predHealth >=
+													2 *
+													 Player.GetAutoAttackDamage(minion, true) ||
+													Math.Abs(predHealth - minion.Health) < float.Epsilon
+											  where minion.Health >= maxhealth[0] || Math.Abs(maxhealth[0] - float.MaxValue) < float.Epsilon
+											  select minion)
 						{
-							if(_prevMinion != null && _prevMinion.IsValidTarget() && (InAutoAttackRange(_prevMinion) || InSoldierAttackRange(_prevMinion)))
-							{
-								var predHealth = HealthPrediction.LaneClearHealthPrediction(
-								_prevMinion, (int)((_player.AttackDelay * 1000) * LaneClearWaitTimeMod), FarmDelay);
-								if(predHealth >=
-									2 *
-									DamageLib.CalcPhysicalMinionDmg(
-										_player.BaseAttackDamage + _player.FlatPhysicalDamageMod, _prevMinion, true) - 1 +
-									Math.Max(0, GetAutoAttackPassiveDamage(_prevMinion) - 10) ||
-									Math.Abs(predHealth - _prevMinion.Health) < float.Epsilon)
-									return _prevMinion;
-							}
-							foreach(var minion in from minion in ObjectManager.Get<Obj_AI_Minion>()
-							   .Where(minion => minion.IsValidTarget() && (InAutoAttackRange(minion) || InSoldierAttackRange(minion)))
-												  let predHealth = HealthPrediction.LaneClearHealthPrediction(
-minion, (int)((_player.AttackDelay * 1000) * LaneClearWaitTimeMod), FarmDelay)
-												  where predHealth >=
-														2 *
-														DamageLib.CalcPhysicalMinionDmg(
-															_player.BaseAttackDamage + _player.FlatPhysicalDamageMod, minion, true) - 1 +
-														Math.Max(0, GetAutoAttackPassiveDamage(minion) - 10) ||
-														Math.Abs(predHealth - minion.Health) < float.Epsilon
-												  where minion.Health >= r[0] || Math.Abs(r[0] - float.MaxValue) < float.Epsilon
-												  select minion)
-							{
-								result = minion;
-								r[0] = minion.Health;
-								_prevMinion = minion;
-							}
+							result = minion;
+							maxhealth[0] = minion.MaxHealth;
 						}
+						return result;
 					}
 					/*turrets*/
 					if(ActiveMode != OrbwalkingMode.LaneClear)

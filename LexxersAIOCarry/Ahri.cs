@@ -50,7 +50,7 @@ namespace UltimateCarry
             var dmgAfterComboItem = new MenuItem("DamageAfterCombo", "Draw Combo Damage").SetValue(true); //copied from esk0r Syndra
             drawMenu.AddItem(dmgAfterComboItem);
 
-			_itemDFG = Utility.Map.GetMap()._MapType == Utility.Map.MapType.TwistedTreeline ? new Items.Item(3188, 750) : new Items.Item(3128, 750);
+            _itemDFG = Utility.Map.GetMap()._MapType  == Utility.Map.MapType.TwistedTreeline ? new Items.Item(3188, 750) : new Items.Item(3128, 750);
 
             _spellQ = new Spell(SpellSlot.Q, 990);
             _spellW = new Spell(SpellSlot.W, 795 - 95);
@@ -186,33 +186,26 @@ namespace UltimateCarry
                     _spellR.Cast(Game.CursorPos, Packets());
         }
 
-        List<Tuple<DamageLib.SpellType, DamageLib.StageType>> GetSpellCombo()
-        {
-            var spellCombo = new List<Tuple<DamageLib.SpellType, DamageLib.StageType>>();
+		List<SpellSlot> GetSpellCombo()
+		{
+			var spellCombo = new List<SpellSlot>();
 
-            if (_spellQ.IsReady())
-                spellCombo.Add(Tuple.Create(DamageLib.SpellType.Q, DamageLib.StageType.Default));
-
-            if (_spellW.IsReady())
-                spellCombo.Add(Tuple.Create(DamageLib.SpellType.W, DamageLib.StageType.FirstDamage));
-
-            if (_spellE.IsReady())
-                spellCombo.Add(Tuple.Create(DamageLib.SpellType.E, DamageLib.StageType.Default));
-
-            if (_spellR.IsReady())
-                spellCombo.Add(Tuple.Create(DamageLib.SpellType.R, DamageLib.StageType.FirstDamage));
-
-            return spellCombo;
-        }
+			if(_spellQ.IsReady())
+				spellCombo.Add(SpellSlot.Q);
+			if(_spellW.IsReady())
+				spellCombo.Add(SpellSlot.W);
+			if(_spellE.IsReady())
+				spellCombo.Add(SpellSlot.E);
+			if(_spellR.IsReady())
+				spellCombo.Add(SpellSlot.R);
+			return spellCombo;
+		}
 
         float GetComboDamage(Obj_AI_Base target)
-        {
-            double comboDamage = (float)DamageLib.GetComboDamage(target, GetSpellCombo());
+		{
+            double comboDamage = (float)ObjectManager.Player.GetComboDamage(target,GetSpellCombo());
 
-            if (_itemDFG.IsReady())
-                comboDamage = comboDamage * 1.2 + DamageLib.getDmg(target, DamageLib.SpellType.DFG);
-
-            return (float)(comboDamage + DamageLib.getDmg(target, DamageLib.SpellType.AD));
+			return (float)(comboDamage + ObjectManager.Player.GetAutoAttackDamage(target ));
         }
 
         bool OkToUlt()

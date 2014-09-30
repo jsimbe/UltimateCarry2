@@ -117,9 +117,9 @@ namespace UltimateCarry
 				if(!enemy.IsValidTarget(W.Range + E.Range))
 					continue;
 				var targetdis = ObjectManager.Player.Distance(enemy);
-				var rDamage = DamageLib.getDmg(enemy, DamageLib.SpellType.R);
-				var wDamage = DamageLib.getDmg(enemy, DamageLib.SpellType.W);
-				var eDamage = DamageLib.getDmg(enemy, DamageLib.SpellType.E);
+				var rDamage = ObjectManager.Player.GetSpellDamage(enemy, SpellSlot.R);
+				var wDamage = ObjectManager.Player.GetSpellDamage(enemy, SpellSlot.W);
+				var eDamage = ObjectManager.Player.GetSpellDamage(enemy, SpellSlot.E);
 				var igniteDamage = GetIgniteDamage(enemy);
 				var health = enemy.Health + (enemy.HPRegenRate / 5 * 3) + 50;
 
@@ -200,7 +200,7 @@ namespace UltimateCarry
 			if(smite == SpellSlot.Unknown)
 				return 0;
 			if(ObjectManager.Player.SummonerSpellbook.CanUseSpell(smite) == SpellState.Ready)
-				return (float)DamageLib.getDmg(target, DamageLib.SpellType.IGNITE);
+				return (float)ObjectManager.Player.GetSummonerSpellDamage(target,Damage.SummonerSpell.Ignite );
 			return 0;
 		}
 

@@ -112,7 +112,7 @@ namespace UltimateCarry
 
 			if (!R.IsReady( ))
 				return;
-			foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>().Where(hero => hero.IsValidTarget() && hero.Health <= (DamageLib.getDmg( hero,DamageLib.SpellType.R) / 2)))
+			foreach(var enemy in ObjectManager.Get<Obj_AI_Hero>().Where(hero => hero.IsValidTarget() && hero.Health <= (ObjectManager.Player.GetSpellDamage(hero, SpellSlot.W) / 2)))
 			{
 				R.Cast(enemy, Packets());
 				return;
@@ -183,7 +183,7 @@ namespace UltimateCarry
 			var allminions = MinionManager.GetMinions(ObjectManager.Player.Position, Q.Range, MinionTypes.All, MinionTeam.NotAlly);
 			if(allminions.Count == 0)
 				return;
-			foreach(var minion in allminions.Where(minion => minion.Health <= DamageLib.getDmg(minion, DamageLib.SpellType.Q)))
+			foreach(var minion in allminions.Where(minion => minion.Health <= ObjectManager.Player.GetSpellDamage(minion, SpellSlot.Q)))
 			{
 				Q.CastOnUnit(minion, Packets());
 				return;

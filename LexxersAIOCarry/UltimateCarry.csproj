@@ -102,7 +102,6 @@
     <Compile Include="Helper.cs" />
     <Compile Include="Tristana.cs" />
     <Compile Include="TwistedFate.cs" />
-    <Compile Include="UcTargetSelector.cs" />
     <Compile Include="Xerath.cs" />
     <Compile Include="Zed.cs" />
     <Compile Include="Zyra.cs" />

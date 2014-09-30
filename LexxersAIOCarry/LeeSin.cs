@@ -622,7 +622,7 @@ namespace UltimateCarry
 		{
 			if(!R.IsReady() || enemy.Distance(ObjectManager.Player) > R.Range)
 				return;
-			if(enemy.Health < DamageLib.getDmg(enemy, DamageLib.SpellType.R))
+			if(enemy.Health < ObjectManager.Player.GetSpellDamage(enemy, SpellSlot.R))
 				R.CastOnUnit(enemy, Packets());
 		}
 
@@ -633,10 +633,10 @@ namespace UltimateCarry
 				if(!target.IsValidTarget(Q1.Range + 150))
 					continue;
 				var targetdis = ObjectManager.Player.Distance(target);
-				var qDamage = DamageLib.getDmg(target, DamageLib.SpellType.Q, DamageLib.StageType.FirstDamage);
-				var rDamage = DamageLib.getDmg(target, DamageLib.SpellType.R);
-				var aDamage = DamageLib.getDmg(target, DamageLib.SpellType.AD);
-				var eDamage = DamageLib.getDmg(target, DamageLib.SpellType.E);
+				var qDamage = ObjectManager.Player.GetSpellDamage(target, SpellSlot.Q,1);
+				var rDamage = ObjectManager.Player.GetSpellDamage(target, SpellSlot.R);
+				var aDamage = ObjectManager.Player.GetAutoAttackDamage(target);
+				var eDamage = ObjectManager.Player.GetSpellDamage(target, SpellSlot.E);
 				var igniteDamage = GetIgniteDamage(target);
 				var health = target.Health + (target.HPRegenRate / 5 * 3) + 50;
 				if(health < 0)
@@ -793,10 +793,10 @@ namespace UltimateCarry
 				return false;
 			var qtargetdis = qtarget.Distance(ObjectManager.Player);
 			var qTargetDistance = ObjectManager.Player.Distance(qtarget);
-			var qDamage = DamageLib.getDmg(qtarget, DamageLib.SpellType.Q, DamageLib.StageType.FirstDamage);
-			var rDamage = DamageLib.getDmg(qtarget, DamageLib.SpellType.R);
-			var aDamage = DamageLib.getDmg(qtarget, DamageLib.SpellType.AD);
-			var eDamage = DamageLib.getDmg(qtarget, DamageLib.SpellType.E);
+			var qDamage = ObjectManager.Player.GetSpellDamage(qtarget,SpellSlot.Q,1);
+			var rDamage = ObjectManager.Player.GetSpellDamage(qtarget, SpellSlot.R);
+			var aDamage = ObjectManager.Player.GetAutoAttackDamage(qtarget);
+			var eDamage = ObjectManager.Player.GetSpellDamage(qtarget, SpellSlot.E);
 			var igniteDamage = GetIgniteDamage(qtarget);
 
 			var health = qtarget.Health + (qtarget.HPRegenRate / 5 * 3) + 50;
@@ -962,14 +962,14 @@ namespace UltimateCarry
 			if(smite == SpellSlot.Unknown)
 				return 0;
 			if(ObjectManager.Player.SummonerSpellbook.CanUseSpell(smite) == SpellState.Ready)
-				return (float)DamageLib.getDmg(target, DamageLib.SpellType.IGNITE);
+				return (float)ObjectManager.Player.GetSummonerSpellDamage(target,Damage.SummonerSpell.Ignite);
 			return 0;
 		}
 
 		private double SecondQDamage(Obj_AI_Base target, float extradamage = 0)
 		{
 			var damage = Q1.Level * 30 + 20 + ObjectManager.Player.BaseAttackDamage * 0.9 + 0.08 * (target.MaxHealth - target.Health - extradamage);
-			var realdamage = DamageLib.CalcPhysicalDmg(damage, target);
+			var realdamage = ObjectManager.Player.CalcDamage(target, Damage.DamageType.Physical, damage);
 			return realdamage;
 		}
 
