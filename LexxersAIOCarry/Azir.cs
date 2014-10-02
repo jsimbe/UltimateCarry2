@@ -543,7 +543,6 @@ namespace UltimateCarry
 				private readonly Menu _config;
 				private Obj_AI_Base _forcedTarget;
 				private Vector3 _orbwalkingPoint;
-				private Obj_AI_Minion _prevMinion;
 				public Orbwalker(Menu attachToMenu)
 				{
 					_config = attachToMenu;

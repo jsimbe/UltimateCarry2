@@ -138,28 +138,28 @@ namespace UltimateCarry
 		//	{
 		//		if (Q1Ready() && Program.Menu.Item("RunlikeHell_useQ").GetValue<bool>())
 		//		{
-					
-					//var allminionsenemy = MinionManager.GetMinions(Game.CursorPos, Program.Menu.Item("RunlikeHell_range").GetValue<Slider>().Value, MinionTypes.All, MinionTeam.NotAlly);
-					//foreach (
-					//	var minion in
-					//		allminionsenemy.Where(
-					//			minion =>
-					//				minion.Distance(ObjectManager.Player) <= Q1.Range && minion.Distance(ObjectManager.Player) >= 550 &&
-					//				minion.Health > DamageLib.getDmg(minion, DamageLib.SpellType.Q)))
-					//{
-					//	var collision = Q1.GetPrediction(minion).CollisionObjects.Count;
-					//	Chat.Print(collision.ToString());
-					//	if (collision == 0)
-					//	{
-					//		Q1.Cast(minion.Position, Packets());
-					//		return;
-					//	}
-					//	if(collision == 1 && Q1.GetPrediction(minion).CollisionObjects.First().Health < SmiteDamage() && SmiteReady() && Q1.GetPrediction(minion).CollisionObjects.First().IsMinion )
-					//	{
-					//		ObjectManager.Player.SummonerSpellbook.CastSpell(Activator.GetSummonerSpellSlot("summonersmite"),Q1.GetPrediction(minion).CollisionObjects.First());
-					//		return;
-					//	}
-					//}
+
+		//var allminionsenemy = MinionManager.GetMinions(Game.CursorPos, Program.Menu.Item("RunlikeHell_range").GetValue<Slider>().Value, MinionTypes.All, MinionTeam.NotAlly);
+		//foreach (
+		//	var minion in
+		//		allminionsenemy.Where(
+		//			minion =>
+		//				minion.Distance(ObjectManager.Player) <= Q1.Range && minion.Distance(ObjectManager.Player) >= 550 &&
+		//				minion.Health > DamageLib.getDmg(minion, DamageLib.SpellType.Q)))
+		//{
+		//	var collision = Q1.GetPrediction(minion).CollisionObjects.Count;
+		//	Chat.Print(collision.ToString());
+		//	if (collision == 0)
+		//	{
+		//		Q1.Cast(minion.Position, Packets());
+		//		return;
+		//	}
+		//	if(collision == 1 && Q1.GetPrediction(minion).CollisionObjects.First().Health < SmiteDamage() && SmiteReady() && Q1.GetPrediction(minion).CollisionObjects.First().IsMinion )
+		//	{
+		//		ObjectManager.Player.SummonerSpellbook.CastSpell(Activator.GetSummonerSpellSlot("summonersmite"),Q1.GetPrediction(minion).CollisionObjects.First());
+		//		return;
+		//	}
+		//}
 		//		}
 		//		if(W1Ready() && Program.Menu.Item("RunlikeHell_useW").GetValue<bool>())
 		//		{
