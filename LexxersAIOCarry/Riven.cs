@@ -36,6 +36,40 @@ namespace UltimateCarry
 			PluginLoaded();
 		}
 
+		private void OnAnimation(GameObject sender, GameObjectPlayAnimationEventArgs args)
+		{
+			if(Orbwalking.OrbwalkingMode.Combo != Program.Orbwalker.ActiveMode ||
+				!Program.Menu.Item("use_UC").GetValue<bool>())
+				return;
+			if(!sender.IsMe)
+				return;
+			if(args.Animation == "Spell1a")
+			{
+				QStage = 1;
+				if(Program.Menu.Item("QLaugh").GetValue<bool>())
+					Game.Say("/l");
+				else if(Program.Menu.Item("CancleQAnimation").GetValue<bool>())
+					Packet.C2S.Move.Encoded(new Packet.C2S.Move.Struct(Game.CursorPos.X, Game.CursorPos.Y)).Send();
+			}
+
+			if(args.Animation == "Spell1b")
+			{
+				QStage = 2;
+				if(Program.Menu.Item("QLaugh").GetValue<bool>())
+					Game.Say("/l");
+				else if(Program.Menu.Item("CancleQAnimation").GetValue<bool>())
+					Packet.C2S.Move.Encoded(new Packet.C2S.Move.Struct(Game.CursorPos.X, Game.CursorPos.Y)).Send();
+			}
+
+			if(args.Animation != "Spell1c")
+				return;
+			QStage = 0;
+			if(Program.Menu.Item("QLaugh").GetValue<bool>())
+				Game.Say("/l");
+			else if(Program.Menu.Item("CancleQAnimation").GetValue<bool>())
+				Packet.C2S.Move.Encoded(new Packet.C2S.Move.Struct(Game.CursorPos.X, Game.CursorPos.Y)).Send();
+		}
+
 		private void LoadMenu()
 		{
 			Program.Menu.AddSubMenu(new Menu("TeamFight", "TeamFight"));
@@ -300,39 +334,6 @@ namespace UltimateCarry
 			}
 		}
 
-		private void OnAnimation(Obj_AI_Base sender, GameObjectPlayAnimationEventArgs args)
-		{
-			if(Orbwalking.OrbwalkingMode.Combo != Program.Orbwalker.ActiveMode ||
-				!Program.Menu.Item("use_UC").GetValue<bool>())
-				return;
-			if(!sender.IsMe)
-				return;
-			if(args.Animation == "Spell1a")
-			{
-				QStage = 1;
-				if(Program.Menu.Item("QLaugh").GetValue<bool>())
-					Game.Say("/l");
-				else if(Program.Menu.Item("CancleQAnimation").GetValue<bool>())
-					Packet.C2S.Move.Encoded(new Packet.C2S.Move.Struct(Game.CursorPos.X, Game.CursorPos.Y)).Send();
-			}
-
-			if(args.Animation == "Spell1b")
-			{
-				QStage = 2;
-				if(Program.Menu.Item("QLaugh").GetValue<bool>())
-					Game.Say("/l");
-				else if(Program.Menu.Item("CancleQAnimation").GetValue<bool>())
-					Packet.C2S.Move.Encoded(new Packet.C2S.Move.Struct(Game.CursorPos.X, Game.CursorPos.Y)).Send();
-			}
-
-			if(args.Animation != "Spell1c")
-				return;
-			QStage = 0;
-			if(Program.Menu.Item("QLaugh").GetValue<bool>())
-				Game.Say("/l");
-			else if(Program.Menu.Item("CancleQAnimation").GetValue<bool>())
-				Packet.C2S.Move.Encoded(new Packet.C2S.Move.Struct(Game.CursorPos.X, Game.CursorPos.Y)).Send();
-		}
 
 		private float GetQRadius()
 		{
