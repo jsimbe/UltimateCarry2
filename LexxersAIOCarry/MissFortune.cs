@@ -95,7 +95,7 @@ namespace UltimateCarry
 			{
 				if (args.SData.Name == "MissFortuneBulletTime")
 				{
-					Program.Orbwalker.SetAttacks(false);
+					Program.Orbwalker.SetAttack(false);
 					Program.Orbwalker.SetMovement(false);
 					UltTick  = Environment.TickCount;
 				}
@@ -105,7 +105,7 @@ namespace UltimateCarry
 		{
 			if (IsShooting())
 				return;
-			Program.Orbwalker.SetAttacks(true);
+			Program.Orbwalker.SetAttack(true);
 			Program.Orbwalker.SetMovement(true);
 
 			switch(Program.Orbwalker.ActiveMode)
@@ -166,7 +166,7 @@ namespace UltimateCarry
 						enemy =>
 							R.CastIfWillHit(enemy, Program.Menu.Item("useR_TeamFight_willhit").GetValue<Slider>().Value - 1, Packets())))
 				return;
-			Program.Orbwalker.SetAttacks(false);
+			Program.Orbwalker.SetAttack(false);
 			Program.Orbwalker.SetMovement(false);
 			UltTick = Environment.TickCount;
 		}

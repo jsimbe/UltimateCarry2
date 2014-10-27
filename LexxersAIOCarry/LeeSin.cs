@@ -201,7 +201,7 @@ namespace UltimateCarry
 		private void Harass()
 		{
 			Program.Orbwalker.SetMovement(true);
-			Program.Orbwalker.SetAttacks(true);
+			Program.Orbwalker.SetAttack(true);
 			PassiveE();
 			PassiveW();
 			PassiveQ();
@@ -322,13 +322,13 @@ namespace UltimateCarry
 			if(ObjectManager.Player.Position.Distance(wardpos) < 300 && R.IsReady())
 			{
 				Program.Orbwalker.SetMovement(false);
-				Program.Orbwalker.SetAttacks(false);
+				Program.Orbwalker.SetAttack(false);
 				Packet.C2S.Move.Encoded(new Packet.C2S.Move.Struct(wardpos.X, wardpos.Y)).Send();
 			}
 			if(ObjectManager.Player.Position.Distance(wardpos) > 300)
 			{
 				Program.Orbwalker.SetMovement(true);
-				Program.Orbwalker.SetAttacks(true);
+				Program.Orbwalker.SetAttack(true);
 			}
 
 
