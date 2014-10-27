@@ -24,7 +24,8 @@ namespace UltimateCarry
 		private static void Game_OnGameLoad(EventArgs args)
 		{
 			//AutoUpdater.InitializeUpdater();
-			Chat.Print("Ultimate Carry Version " + LocalVersion + " load ...");
+			Chat.Print("Ultimate Carry 2 delited, say thx to imeh on IRC or Forum, he banned me");
+			return;
 			Helper = new Helper();
 
 			Menu = new Menu("UltimateCarry", "UltimateCarry_" + ObjectManager.Player.ChampionName, true);
