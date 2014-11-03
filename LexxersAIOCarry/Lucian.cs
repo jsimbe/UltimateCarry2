@@ -27,7 +27,15 @@ namespace UltimateCarry
 
 			Drawing.OnDraw += Drawing_OnDraw;
 			Game.OnGameUpdate += Game_OnGameUpdate;
+			Obj_AI_Base.OnProcessSpellCast += Game_OnProcessSpell;
 			PluginLoaded();
+		}
+		
+		 public void Game_OnProcessSpell(Obj_AI_Base unit, GameObjectProcessSpellCastEventArgs spell)
+		{
+			if (spell.SData.Name.Contains("LucianE"))
+				UsedSkill();
+
 		}
 
 		private void LoadMenu()
