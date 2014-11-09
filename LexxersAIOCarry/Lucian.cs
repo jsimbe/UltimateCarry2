@@ -33,7 +33,7 @@ namespace UltimateCarry
 		
 		 public void Game_OnProcessSpell(Obj_AI_Base unit, GameObjectProcessSpellCastEventArgs spell)
 		{
-			if (spell.SData.Name.Contains("LucianE"))
+			if (spell.SData.Name.Contains("LucianE") || spell.SData.Name.Contains("LucianR"))
 				UsedSkill();
 
 		}
